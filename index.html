@@ -11,6 +11,35 @@
     <title>Rock Paper Scissor</title>
   </head>
   <body>
+    <div class="container">
+      <h1 id="titleText">Draw</h1>
+      <h1 class="TextRockPaperScissor">Computer Chose “rock/paper/scissor”</h1>
+      <h1 class="scoresText">You 0 : 0 Ai</h1>
+      <div class="imagesOfGame">
+        <label class="img1" for="option1">
+          <img src="assets/images/paper 1.png" alt="Option1" />
+        </label>
+
+        <label class="img2" for="option2">
+          <img src="assets/images/rock 1.png" alt="Option2" />
+        </label>
+
+        <label class="img3" for="option3">
+          <img src="assets/images/two 1.png" alt="Option3" />
+        </label>
+      </div>
+
+      <div class="inputs">
+        <input type="radio" id="option1" name="options" />
+        <input type="radio" id="option2" name="options" />
+        <input type="radio" id="option3" name="options" />
+      </div>
+    </div>
+
+    <div class="btn">
+      <button class="Play_again">Play again</button>
+    </div>
+
     <!-- scripts -->
     <script src="./script/main.js"></script>
   </body>
