@@ -1,65 +1,132 @@
-let choosenByUser1;
-
-let win = false;
+let player1 = "";
+let player2 = "";
+let player2Iswin = false;
 let equals = false;
-let Lost = false;
+let Player1Iswin = false;
 
-let OptionsForChoose = document.querySelectorAll('input[type="radio"]');
-OptionsForChoose.forEach(function (option) {
-  option.addEventListener("click", function () {
-    (choosenByUser1 = option.id), console.log(choosenByUser1);
-  });
+let counter1 = 0;
+let counter2 = 0;
+
+document.addEventListener("keydown", (e) => {
+  if (button.innerHTML == "Player1") {
+    switch (e.code) {
+      case "KeyA":
+        player1 = "paper";
+        console.log(player1);
+
+        button.innerHTML = "Player2";
+        YourTurn.innerHTML = "Player2's turn";
+
+        break;
+      case "KeyS":
+        player1 = "scissor";
+        console.log(player1);
+
+        button.innerHTML = "Player2";
+        YourTurn.innerHTML = "Player2's turn";
+
+        break;
+      case "KeyD":
+        player1 = "rock";
+        console.log(player1);
+
+        button.innerHTML = "Player2";
+        YourTurn.innerHTML = "Player2's turn";
+
+        break;
+      default:
+    }
+  }
 });
 
-let choosenByComputer;
+//Player 2 chooses the option
 
-let LogicOfGame = function (choosenByComputer, choosenByUser1) {
-  if (choosenByComputer == "option1" && choosenByUser1 == "option1") {
+document.addEventListener("keydown", (e) => {
+  if (button.innerHTML == "Player2") {
+    switch (e.code) {
+      case "ArrowLeft":
+        player2 = "paper";
+        console.log(player2);
+        button.innerHTML = "Start";
+        break;
+      case "ArrowUp":
+        player2 = "scissor";
+        console.log(player2);
+        button.innerHTML = "Start";
+
+        break;
+      case "ArrowRight":
+        player2 = "rock";
+        console.log(player2);
+        button.innerHTML = "Start";
+
+        break;
+      default:
+    }
+  }
+});
+
+//Logic Of The Game
+
+let LogicOfGame = function (player1, player2) {
+  if (player2 == "paper" && player1 == "paper") {
     equals = true;
-  } else if (choosenByUser1 == "option1" && choosenByComputer == "option2") {
-    win = true;
-  } else if (choosenByUser1 == "option2" && choosenByComputer == "option2") {
+  } else if (player1 == "paper" && player2 == "scissor") {
+    player2Iswin = true;
+  } else if (player1 == "scissor" && player2 == "scissor") {
     equals = true;
-  } else if (choosenByUser1 == "option2" && choosenByComputer == "option3") {
-    win = true;
-  } else if (choosenByUser1 == "option3" && choosenByComputer == "option3") {
+  } else if (player1 == "scissor" && player2 == "rock") {
+    player2Iswin = true;
+  } else if (player1 == "rock" && player2 == "rock") {
     equals = true;
-  } else if (choosenByUser1 == "option3" && choosenByComputer == "option1") {
-    win = true;
+  } else if (player1 == "rock" && player2 == "paper") {
+    player2Iswin = true;
   } else {
-    Lost = true;
+    Player1Iswin = true;
   }
 };
 
-const textTitle = document.querySelector("#titleText");
+//Pressing the Button start & play again
 const button = document.querySelector("button");
-const YourTurn = document.querySelector(".TextRockPaperScissor");
+const textTitle = document.querySelector("#titleText");
+const scoresAndTurn = document.querySelector(".scoresAndTurn");
 
 button.addEventListener("click", function () {
-  if (button.innerHTML == "start") {
-    let randomNumber = (Math.floor(Math.random() * 10) % 3) + 1;
-    let choosenByComputer = "option" + randomNumber;
-    LogicOfGame(choosenByComputer, choosenByUser1);
-    if (win) {
-      textTitle.innerHTML = "You Win!";
-      textTitle.style.color = "green";
+  if (button.innerHTML == "Start") {
+    LogicOfGame(player1, player2);
+    if (player2Iswin) {
+      counter2++;
+      textTitle.innerHTML = "Player2 is Winner!";
+      scoresAndTurn.innerHTML = `Player1---${counter1} :${counter2}--- Player2`;
+      textTitle.style.color = "#4EFF22";
       button.innerHTML = "Play again";
     } else if (equals) {
       textTitle.innerHTML = "equals!";
+      scoresAndTurn.innerHTML = `Player1---${counter1} :${counter2}--- Player2`;
       textTitle.style.color = "#FD8F11";
       button.innerHTML = "Play again";
-    } else if (Lost) {
-      textTitle.innerHTML = "You Lost!";
-      textTitle.style.color = "#CB1111";
+    } else if (Player1Iswin) {
+      counter1++;
+      scoresAndTurn.innerHTML = `Player1---${counter1} :${counter2}--- Player2`;
+      textTitle.innerHTML = "Player1 is Winner!";
+      textTitle.style.color = "#4EFF22";
       button.innerHTML = "Play again";
     }
-  } else {
+    document.getElementById(`${player1}1`).classList.add("selected");
+    document.getElementById(`${player2}2`).classList.add("selected");
+  } else if ((button.innerHTML = "Play again")) {
+    if (player1 != "" && player2 != "") {
+      document.getElementById(`${player1}1`).classList.remove("selected");
+      document.getElementById(`${player2}2`).classList.remove("selected");
+    }
     textTitle.style.color = "white";
     textTitle.innerHTML = "Rock Paper Scissors";
-    button.innerHTML = "start";
-    YourTurn.innerHTML = "Computer Chose “rock/paper/scissor”!";
-    win = false;
+    button.innerHTML = "Player1";
+    scoresAndTurn.innerHTML = "Player1's turn";
+    player2Iswin = false;
     equals = false;
-    Lost = false;
+    Player1Iswin = false;
+    player1 = "";
+    player2 = "";
   }
 });
